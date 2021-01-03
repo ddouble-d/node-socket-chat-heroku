@@ -1,5 +1,10 @@
 let socket = io()
 
+function scrollToBottom() {
+  let messages = document.querySelector('#messages').lastElementChild
+  messages.scrollIntoView()
+}
+
 socket.on("connect", function()  {
   console.log("connected to server")
 })
@@ -17,7 +22,8 @@ socket.on('newMessage', function(message) {
     div.innerHTML = html
 
     document.querySelector('#messages').appendChild(div)
-})
+    scrollToBottom()
+  })
 
   socket.on("newLocationMessage", function (message) {
     const formattedTime = moment(message.createdAt).format("LT")
@@ -33,7 +39,8 @@ socket.on('newMessage', function(message) {
     div.innerHTML = html
 
     document.querySelector("#messages").appendChild(div)
-})
+    scrollToBottom();
+  })
 
 socket.on("disconnect", function()  {
   console.log("disconnected from server")
