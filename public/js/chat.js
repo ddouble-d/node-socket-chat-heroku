@@ -6,7 +6,25 @@ function scrollToBottom() {
 }
 
 socket.on("connect", function()  {
-  console.log("connected to server")
+  // console.log("connected to server")
+  let searchQuery = window.location.search.substring(1)
+  let params = JSON.parse(
+    '{"' +
+      decodeURI(searchQuery)
+        .replace(/&/g, '","')
+        .replace(/\+/g, "")
+        .replace(/=/g, '":"') +
+      '"}'
+  );
+
+  socket.emit('join', params, function(err) {
+    if(err) {
+      alert('input fields must be valid')
+      window.location.href = '/'
+    } else {
+      console.log('no error')
+    }
+  })
 })
 
 socket.on('newMessage', function(message) {
