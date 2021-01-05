@@ -64,11 +64,23 @@ socket.on("disconnect", function()  {
   console.log("disconnected from server")
 })
 
+socket.on('updateUsersList', function(users) {
+  let ol = document.createElement('ol')
+  users.forEach(function (user) {
+    let li = document.createElement('li')
+    li.innerHTML = user
+    ol.appendChild(li)
+  })
+
+  let usersList = document.querySelector('#users')
+  usersList.innerHTML = ""
+  usersList.appendChild(ol)
+})
+
 document.querySelector('#submit-btn').addEventListener('click', function(e) {
   e.preventDefault()
 
   socket.emit('createMessage', {
-    from: "User",
     text: document.querySelector('input[name="message"]').value
   }, function() {
 
